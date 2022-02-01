@@ -1,15 +1,12 @@
 package co.ayifa.pim;
 
-import co.ayifa.pim.exception.FormatNotFoundException;
 import co.ayifa.pim.exception.InvalidFormatException;
 import co.ayifa.pim.utils.PhoneValidator;
-
-import javax.xml.validation.Validator;
 
 public class PhoneNumber {
 
     // Phone number country
-    private String country;
+    private String countryCode;
 
     // Phone Number
     private String phone;
@@ -17,17 +14,17 @@ public class PhoneNumber {
     public PhoneNumber() {
     }
 
-    public PhoneNumber(String country, String phone) {
-        this.country = country;
+    public PhoneNumber(String countryCode, String phone) {
+        this.countryCode = countryCode;
         this.setPhone(phone);
     }
 
-    public String getCountry() {
-        return country;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getPhone() {
@@ -36,8 +33,8 @@ public class PhoneNumber {
 
     public void setPhone(String phone) {
         try {
-            this.phone = PhoneValidator.validatePhone(phone, this.country) ? phone : null;
-        } catch (FormatNotFoundException | InvalidFormatException e) {
+            this.phone = PhoneValidator.validate(this.countryCode, phone) ? phone : null;
+        } catch (InvalidFormatException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
@@ -46,7 +43,7 @@ public class PhoneNumber {
     @Override
     public String toString() {
         return "PhoneNumber{" +
-                "country='" + country + '\'' +
+                "countryCode='" + countryCode + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }
